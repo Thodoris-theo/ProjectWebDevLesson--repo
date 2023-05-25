@@ -22,6 +22,9 @@ app.set('view engine', 'ejs');
 app.get('/login', (req, res) => {
   res.render('login');
 });
+app.get('/homegape', (req, res) => {
+  res.render('homepage');
+});
 
 app.post('/login', (req, res) => { // Change the route to handle POST requests to "/login"
   const email = req.body.email;
