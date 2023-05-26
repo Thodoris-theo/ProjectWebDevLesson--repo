@@ -22,10 +22,10 @@ app.set('view engine', 'ejs');
 app.get('/login', (req, res) => {
   res.render('login');
 });
-app.get('/homegape', (req, res) => {
+app.get('/homepage', (req, res) => {
+  // Logic to handle and render the homepage
   res.render('homepage');
 });
-
 app.post('/login', (req, res) => { // Change the route to handle POST requests to "/login"
   const email = req.body.email;
   const password = req.body.password;
@@ -37,7 +37,7 @@ app.post('/login', (req, res) => { // Change the route to handle POST requests t
       if (results.length > 0) {
         req.session.loggedin = true;
         req.session.email = email;
-        res.redirect('/homepage');
+        res.redirect('homepage');
       } else {
         res.send('Incorrect Username and/or Password!');
       }
@@ -47,13 +47,7 @@ app.post('/login', (req, res) => { // Change the route to handle POST requests t
   }
 });
 
-app.get('/homepage', (req, res) => {
-  if (req.session.loggedin) {
-    res.send('Welcome back, ' + req.session.email + '!');
-  } else {
-    res.send('Please login to view this page!');
-  }
-});
+
 
 app.listen(3000, () => {
   console.log('Server started on port 3000');
