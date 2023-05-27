@@ -11,9 +11,9 @@
   <div class="container">
     <h2>Classroom Data</h2>
     <!-- Search Bar -->
-    <input type="text" id="searchInput" placeholder="Search..." oninput="searchData()">
+    <input type="text" name="searchInput" placeholder="Search..." oninput="searchData()">
     
-    <ul id="data-table" class="responsive-table">
+    <ul name="data-table" class="responsive-table">
       <li class="table-header">   
         <div class="col col-1">Name</div>
         <div class="col col-2">Building</div>
@@ -22,7 +22,7 @@
         <div class="col col-5">Type</div>
       </li>
       <% data.forEach(function(row) { %>
-        <li class="table-row" onclick="openPage('<%= row.id %>')">
+        <li class="table-row" onclick="openPage('<%= row.name %>')">
           <div class="col col-1" data-label="Name"><%= row.name %></div>
           <div class="col col-2" data-label="Building"><%= row.building %></div>
           <div class="col col-3" data-label="Address"><%= row.address %></div>
@@ -57,9 +57,9 @@
   }</script>
    
     <script> 
-  function openPage(id) {
+  function openPage(name) {
   // Redirect to the page for the clicked row
-  window.location.href = '/classroom/' + id; // Replace '/classroom/' with your desired URL pattern
+  window.location.href = '/classroom/' + name; // Replace '/classroom/' with your desired URL pattern
 }
   </script>
   

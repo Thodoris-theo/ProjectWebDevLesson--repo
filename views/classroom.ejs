@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/homepage-style.css">
+
   <title>Classroom Details</title>
 </head>
 <body>
   <h2>Classroom Details</h2>
 
   <% if (classroom) { %>
+
     <div>
       <h3>Name: <%= classroom.name %></h3>
       <p>Building: <%= classroom.building %></p>
@@ -17,9 +20,36 @@
       <p>Capacity: <%= classroom.capacity %></p>
       <p>Type: <%= classroom.type %></p>
       <!-- Add other classroom details here -->
+      <div class="container">
+      <% if (reservations && reservations.length > 0) { %>
+        <h2>Reservations:</h2>
+        <ul id="data-table" class="responsive-table">
+          <li class="custom-table-header">
+            <div class="custom-col custom-col-1">Reservation Date</div>
+            <div class="custom-col custom-col-2">Reservation Hour</div>
+            <div class="custom-col custom-col-3">Teacher Name</div>
+            <div class="custom-col custom-col-4">Reservation ID</div>
+            <div class="custom-col custom-col-5">Classroom Name</div>
+            <div class="custom-col custom-col-6">Teaching ID</div>
+          </li>
+          <% reservations.forEach(function(reservation) { %>
+            <li class="custom-table-row">
+              <div class="custom-col custom-col-1" data-label="Reservation Date"><%= reservation.reservation_date %></div>
+              <div class="custom-col custom-col-2" data-label="Reservation Hour"><%= reservation.reservation_hour %></div>
+              <div class="custom-col custom-col-3" data-label="Teacher Name"><%= reservation.teacher_firstname %> <%= reservation.teacher_lastname %></div>
+              <div class="custom-col custom-col-4" data-label="Reservation ID"><%= reservation.id %></div>
+              <div class="custom-col custom-col-5" data-label="Classroom Name"><%= reservation.classroom_name %></div>
+              <div class="custom-col custom-col-6" data-label="Teaching ID"><%= reservation.teaching_id %></div>
+            </li>
+          <% }); %>
+        </ul>
+      <% } else { %>
+        <p>No reservations found for this classroom.</p>
+      <% } %>
     </div>
   <% } else { %>
     <h3>Classroom not found.</h3>
   <% } %>
+    </div>
 </body>
 </html>

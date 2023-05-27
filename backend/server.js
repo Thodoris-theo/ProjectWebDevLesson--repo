@@ -36,25 +36,36 @@ app.get('/homepage', (req, res) => {
     res.redirect('/login');
   }
 });
-app.get('/classroom/:id', (req, res) => {
+app.get('/classroom/:name', (req, res) => {
   if (req.session.loggedin) {
-    const classroomId = req.params.id;
-    connection.query('SELECT * FROM classroom WHERE id = ?', [classroomId], (error, results) => {
+    const classroomName = req.params.name;
+
+    connection.query('SELECT * FROM Classroom WHERE name = ?', [classroomName], (error, classroomResults) => {
       if (error) {
         console.error('Error executing the query: ' + error.stack);
         res.send('An error occurred while fetching classroom details from the database');
       } else {
-        if (results.length > 0) {
-          res.render('classroom', { classroom: results[0] });
+        if (classroomResults.length > 0) {
+          const classroom = classroomResults[0];
+
+          connection.query('SELECT * FROM Reservation WHERE classroom_name = ?', [classroomName], (error, reservationResults) => {
+            if (error) {
+              console.error('Error executing the query: ' + error.stack);
+              res.send('An error occurred while fetching reservations from the database');
+            } else {
+              res.render('classroom', { classroom: classroom, reservations: reservationResults });
+            }
+          });
         } else {
           res.send('Classroom not found');
         }
       }
     });
   } else {
-    res.redirect('/login');
+    // res.redirect('/login');
   }
 });
+
 
 app.post('/login', (req, res) => {
   const email = req.body.email;
