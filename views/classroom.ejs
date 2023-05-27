@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classroom Details</title>
+</head>
+<body>
+  <h2>Classroom Details</h2>
+
+  <% if (classroom) { %>
+    <div>
+      <h3>Name: <%= classroom.name %></h3>
+      <p>Building: <%= classroom.building %></p>
+      <p>Address: <%= classroom.address %></p>
+      <p>Capacity: <%= classroom.capacity %></p>
+      <p>Type: <%= classroom.type %></p>
+      <!-- Add other classroom details here -->
+    </div>
+  <% } else { %>
+    <h3>Classroom not found.</h3>
+  <% } %>
+</body>
+</html>
