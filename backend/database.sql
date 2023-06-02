@@ -42,21 +42,24 @@ CREATE TABLE teaching (
 );
 
 CREATE TABLE reservation (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  classroom_name VARCHAR(100) NOT NULL,
-  teaching_id VARCHAR(100) NOT NULL,
-  reservation_date DATE NOT NULL,
-  reservation_hour_start TIME NOT NULL,
-  reservation_hour_end TIME NOT NULL,
-  CONSTRAINT unique_reservation_hour UNIQUE (classroom_name, reservation_date, reservation_hour)
+reservation_id INT AUTO_INCREMENT PRIMARY KEY,
+creation_date DATE NOT NULL,
+start_date DATE NOT NULL,
+day_of_week ENUM('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
+reservation_date DATE,
+reservation_hour TIME NOT NULL,
+duration INT NOT NULL,
+repeat BOOLEAN NOT NULL,
+classroom_name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE reservation_teacher (
-  reservation_id INT,
-  teacher_firstname VARCHAR(30),
-  teacher_lastname VARCHAR(30),
-  FOREIGN KEY (reservation_id) REFERENCES reservation(id),
-  FOREIGN KEY (teacher_firstname, teacher_lastname) REFERENCES users(firstname, lastname) ON DELETE SET NULL
+CREATE TABLE instructor (
+instructor_id INT AUTO_INCREMENT PRIMARY KEY,
+reservation_id INT,
+instructor_firstname VARCHAR(30) NOT NULL,
+instructor_lastname VARCHAR(30) NOT NULL,
+FOREIGN KEY (reservation_id) REFERENCES reservation (reservation_id),
+FOREIGN KEY (instructor_firstname, instructor_lastname) REFERENCES users (firstname, lastname)
 );
 
 DELIMITER //

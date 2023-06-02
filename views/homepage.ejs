@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,14 +8,15 @@
   <link rel="stylesheet" href="homepage-style.css">
   <title>Classroom Data</title>
 </head>
+
 <body>
   <div class="container">
     <h2>Classroom Data</h2>
     <!-- Search Bar -->
     <input type="text" name="searchInput" placeholder="Search..." oninput="searchData()">
-    
+
     <ul name="data-table" class="responsive-table">
-      <li class="table-header">   
+      <li class="table-header">
         <div class="col col-1">Name</div>
         <div class="col col-2">Building</div>
         <div class="col col-3">Address</div>
@@ -23,46 +25,57 @@
       </li>
       <% data.forEach(function(row) { %>
         <li class="table-row" onclick="openPage('<%= row.name %>')">
-          <div class="col col-1" data-label="Name"><%= row.name %></div>
-          <div class="col col-2" data-label="Building"><%= row.building %></div>
-          <div class="col col-3" data-label="Address"><%= row.address %></div>
-          <div class="col col-4" data-label="Capacity"><%= row.capacity %></div>
-          <div class="col col-5" data-label="Type"><%= row.type %></div>
+          <div class="col col-1" data-label="Name">
+            <%= row.name %>
+          </div>
+          <div class="col col-2" data-label="Building">
+            <%= row.building %>
+          </div>
+          <div class="col col-3" data-label="Address">
+            <%= row.address %>
+          </div>
+          <div class="col col-4" data-label="Capacity">
+            <%= row.capacity %>
+          </div>
+          <div class="col col-5" data-label="Type">
+            <%= row.type %>
+          </div>
         </li>
-      <% }) %>
+        <% }) %>
     </ul>
   </div>
   <script> function searchData() {
-    var input = document.getElementById('searchInput').value.toLowerCase().replace(/\s/g, '');
-    var table = document.getElementById('data-table');
-    var rows = table.getElementsByTagName('li');
+      var input = document.getElementById('searchInput').value.toLowerCase().replace(/\s/g, '');
+      var table = document.getElementById('data-table');
+      var rows = table.getElementsByTagName('li');
 
-    for (var i = 0; i < rows.length; i++) {
-      var row = rows[i];
-      var cells = row.getElementsByTagName('div');
-      var match = false;
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var cells = row.getElementsByTagName('div');
+        var match = false;
 
-      for (var j = 0; j < cells.length; j++) {
-        var cell = cells[j];
-        var cellText = cell.textContent.toLowerCase().replace(/\s/g, '');
+        for (var j = 0; j < cells.length; j++) {
+          var cell = cells[j];
+          var cellText = cell.textContent.toLowerCase().replace(/\s/g, '');
 
-        if (cellText.indexOf(input) > -1) {
-          match = true;
-          break;
+          if (cellText.indexOf(input) > -1) {
+            match = true;
+            break;
+          }
         }
-      }
 
-      row.style.display = match ? 'flex' : 'none';
+        row.style.display = match ? 'flex' : 'none';
+      }
+    }</script>
+
+  <script>
+    function openPage(name) {
+      // Redirect to the page for the clicked row
+      window.location.href = '/classroom/' + name; // Replace '/classroom/' with your desired URL pattern
     }
-  }</script>
-   
-    <script> 
-  function openPage(name) {
-  // Redirect to the page for the clicked row
-  window.location.href = '/classroom/' + name; // Replace '/classroom/' with your desired URL pattern
-}
   </script>
-  
+
 
 </body>
+
 </html>

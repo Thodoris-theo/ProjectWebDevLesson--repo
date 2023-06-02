@@ -1,55 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/homepage-style.css">
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
   <title>Classroom Details</title>
 </head>
+
 <body>
   <h2>Classroom Details</h2>
 
   <% if (classroom) { %>
 
-    <div>
-      <h3>Name: <%= classroom.name %></h3>
-      <p>Building: <%= classroom.building %></p>
-      <p>Address: <%= classroom.address %></p>
-      <p>Capacity: <%= classroom.capacity %></p>
-      <p>Type: <%= classroom.type %></p>
-      <!-- Add other classroom details here -->
-      <div class="container">
-      <% if (reservations && reservations.length > 0) { %>
-        <h2>Reservations:</h2>
-        <ul id="data-table" class="responsive-table">
-          <li class="custom-table-header">
-            <div class="custom-col custom-col-1">Reservation Date</div>
-            <div class="custom-col custom-col-2">Reservation Hour</div>
-            <div class="custom-col custom-col-3">Teacher Name</div>
-            <div class="custom-col custom-col-4">Reservation ID</div>
-            <div class="custom-col custom-col-5">Classroom Name</div>
-            <div class="custom-col custom-col-6">Teaching ID</div>
-          </li>
-          <% reservations.forEach(function(reservation) { %>
-            <li class="custom-table-row">
-              <div class="custom-col custom-col-1" data-label="Reservation Date"><%= reservation.reservation_date %></div>
-              <div class="custom-col custom-col-2" data-label="Reservation Hour"><%= reservation.reservation_hour %></div>
-              <div class="custom-col custom-col-3" data-label="Teacher Name"><%= reservation.teacher_firstname %> <%= reservation.teacher_lastname %></div>
-              <div class="custom-col custom-col-4" data-label="Reservation ID"><%= reservation.id %></div>
-              <div class="custom-col custom-col-5" data-label="Classroom Name"><%= reservation.classroom_name %></div>
-              <div class="custom-col custom-col-6" data-label="Teaching ID"><%= reservation.teaching_id %></div>
+  <div>
+    <h3>Name: <%= classroom.name %></h3>
+    <p>Building: <%= classroom.building %></p>
+    <p>Address: <%= classroom.address %></p>
+    <p>Capacity: <%= classroom.capacity %></p>
+    <p>Type: <%= classroom.type %></p>
+    <div class="col-sm-6">
+      <h2>Select Dates:</h2>
+      <div class="form-group">
+        <label for="startdate">Start Date:</label>
+        <div class="input-group date">
+          <input type="text" class="form-control" id="startdate" />
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="enddate">End Date:</label>
+        <div class="input-group date">
+          <input type="text" class="form-control" id="enddate" />
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>Reservations:</h2>
+          <ul id="data-table" class="responsive-table">
+            <li class="custom-table-header">
+              <div class="custom-col custom-col-1">Reservation Date</div>
+              <div class="custom-col custom-col-2">Reservation Hour</div>
+              <div class="custom-col custom-col-3">Teacher Name</div>
+              <div class="custom-col custom-col-4">Reservation ID</div>
+              <div class="custom-col custom-col-5">Classroom Name</div>
+              <div class="custom-col custom-col-6">Teaching ID</div>
             </li>
-          <% }); %>
-        </ul>
-      <% } else { %>
-        <p>No reservations found for this classroom.</p>
-      <% } %>
+            <% reservations.forEach(function(reservation) { %>
+            <li class="custom-table-row">
+              <div class="custom-col custom-col-1" data-label="Reservation Date">
+                <%= new Date(reservation.reservation_date).toLocaleDateString() %>
+              </div>
+              <div class="custom-col custom-col-2" data-label="Reservation Hour">
+                <%= reservation.reservation_hour %>
+              </div>
+              <div class="custom-col custom-col-3" data-label="Teacher Name">
+                <%= reservation.teacher_firstname %> <%= reservation.teacher_lastname %>
+              </div>
+              <div class="custom-col custom-col-4" data-label="Reservation ID">
+                <%= reservation.id %>
+              </div>
+              <div class="custom-col custom-col-5" data-label="Classroom Name">
+                <%= reservation.classroom_name %>
+              </div>
+              <div class="custom-col custom-col-6" data-label="Teaching ID">
+                <%= reservation.teaching_id %>
+              </div>
+            </li>
+            <% }); %>
+          </ul>
+          <% if (reservations && reservations.length === 0) { %>
+          <p>No reservations found for this classroom.</p>
+          <% } %>
+        </div>
+       
+      </div>
     </div>
-  <% } else { %>
+
+    <% } else { %>
     <h3>Classroom not found.</h3>
-  <% } %>
-    </div>
+    <% } %>
+
+    <script>
+      $(document).ready(function() {
+        $("#startdate").datepicker();
+        $("#enddate").datepicker();
+
+        $("#startdate, #enddate").on("change", function() {
+          var startDate = $("#startdate").val();
+          var endDate = $("#enddate").val();
+
+          $.ajax({
+            url: "//classroom/:name'", // Replace with the actual URL to fetch reservations
+            type: "GET",
+            data: {
+              start_date: startDate,
+              end_date: endDate
+            },
+            success: function(reservations) {
+              var reservationList = $("#data-table");
+              reservationList.empty();
+
+              if (reservations && reservations.length > 0) {
+                reservations.forEach(function(reservation) {
+                  var listItem = $("<li>").addClass("custom-table-row");
+                  listItem.append(
+                    $("<div>").addClass("custom-col custom-col-1").attr("data-label", "Reservation Date").text(new Date(reservation.reservation_date).toLocaleDateString())
+                  );
+                  listItem.append(
+                    $("<div>").addClass("custom-col custom-col-2").attr("data-label", "Reservation Hour").text(reservation.reservation_hour)
+                  );
+                  listItem.append(
+                    $("<div>").addClass("custom-col custom-col-3").attr("data-label", "Teacher Name").text(reservation.teacher_firstname + " " + reservation.teacher_lastname)
+                  );
+                  listItem.append(
+                    $("<div>").addClass("custom-col custom-col-4").attr("data-label", "Reservation ID").text(reservation.id)
+                  );
+                  listItem.append(
+                    $("<div>").addClass("custom-col custom-col-5").attr("data-label", "Classroom Name").text(reservation.classroom_name)
+                  );
+                  listItem.append(
+                    $("<div>").addClass("custom-col custom-col-6").attr("data-label", "Teaching ID").text(reservation.teaching_id)
+                  );
+
+                  reservationList.append(listItem);
+                });
+              } else {
+                reservationList.append($("<p>").text("No reservations found for this classroom."));
+              }
+            },
+            error: function() {
+              console.log("Error fetching reservations.");
+            }
+          });
+        });
+      });
+    </script>
 </body>
+
 </html>

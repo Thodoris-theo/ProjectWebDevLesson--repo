@@ -4,7 +4,7 @@ body {
 }
 
 .container {
-  max-width: 1900px;
+  max-width: 1500px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 10px;
@@ -66,21 +66,39 @@ h2 small {
   
 }
 .responsive-table .col-1 {
+  flex-basis: 16.66%;
+  padding: 5px;
+  text-align: center; /* Add this line to center the text */
   flex-basis: 25%;
 }
 .responsive-table .col-2 {
+  flex-basis: 16.66%;
+  padding: 5px;
+  text-align: center; /* Add this line to center the text */
   flex-basis: 25%;
 }
 .responsive-table .col-3 {
+  flex-basis: 16.66%;
+  padding: 5px;
+  text-align: center; /* Add this line to center the text */
   flex-basis: 25%;
 }
 .responsive-table .col-4 {
+  flex-basis: 16.66%;
+  padding: 5px;
+  text-align: center; /* Add this line to center the text */
   flex-basis: 25%;
 }
 .responsive-table .col-5 {
+  flex-basis: 16.66%;
+  padding: 5px;
+  text-align: center; /* Add this line to center the text */
   flex-basis: 25%;
 }
 .responsive-table .col-6 {
+  flex-basis: 16.66%;
+  padding: 5px;
+  text-align: center; /* Add this line to center the text */
   flex-basis: 25%;
 }
 
@@ -133,9 +151,10 @@ h2 small {
 .custom-col {
   flex-basis: 16.66%;
   padding: 5px;
+  text-align: center; /* Add this line to center the text */
 }
 
-/* Media query for smaller screens */
+
 @media (max-width: 768px) {
   .custom-table-row {
     flex-wrap: wrap;
@@ -145,5 +164,43 @@ h2 small {
   .custom-col {
     flex-basis: 100%;
     padding: 5px;
+  }
+  
+  .responsive-table {
+    overflow-x: auto;
+  }
+  
+  .responsive-table .custom-table-header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    background-color: #f8f8f8;
+    z-index: 1;
+  }
+  
+  .responsive-table .custom-table-row {
+    display: flex;
+  }
+}
+@media all and (max-width: 767px) {
+  .responsive-table .custom-table-header {
+    display: none;
+  }
+  .responsive-table li {
+    display: block;
+  }
+  .responsive-table .custom-col {
+    flex-basis: 100%;
+  }
+  .responsive-table .custom-col {
+    display: flex;
+    padding: 10px 0;
+  }
+  .responsive-table .custom-col:before {
+    color: #6C7A89;
+    padding-right: 10px;
+    content: attr(data-label);
+    flex-basis: 50%;
+    text-align: right;
   }
 }
