@@ -63,25 +63,8 @@ app.get('/classroom/:name', (req, res) => {
       }
     });
   } else {
-    res.redirect('/login');
+   // res.redirect('/login');
   }
-});
-
-app.get('/reservations', (req, res) => {
-  const startDate = req.query.start_date;
-  const endDate = req.query.end_date;
-
-  // Use startDate and endDate to fetch reservations from the database
-  // Replace the code below with your actual query to fetch reservations
-
-  connection.query('SELECT * FROM Reservation WHERE reservation_date BETWEEN ? AND ?', [startDate, endDate], (error, reservationResults) => {
-    if (error) {
-      console.error('Error executing the query: ' + error.stack);
-      res.send('An error occurred while fetching reservations from the database');
-    } else {
-      res.json(reservationResults);
-    }
-  });
 });
 
 app.post('/login', (req, res) => {
@@ -104,6 +87,7 @@ app.post('/login', (req, res) => {
     res.send('Please enter Username and Password!');
   }
 });
+
 
 app.listen(3000, () => {
   console.log('Server started on port 3000');

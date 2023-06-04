@@ -204,3 +204,25 @@ h2 small {
     text-align: right;
   }
 }
+.datepicker {
+  font-size: 12px;
+}
+
+.datepicker td,
+.datepicker th {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.classroom-info-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.picker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
