@@ -36,6 +36,22 @@ app.get('/homepage', (req, res) => {
     res.redirect('/login');
   }
 });
+app.get('/page', (req, res) => {
+  if (req.session.loggedin) {
+    connection.query('SELECT * FROM Classroom', (error, results) => {
+      if (error) {
+        console.error('Error executing the query: ' + error.stack);
+        res.send('An error occurred while fetching data from the database');
+      } else {
+        console.log(results); // Check the query results
+        res.render('page', { data: results });
+      }
+    });
+  } else {
+    res.redirect('/login');
+  }
+});
+
 
 app.get('/classroom/:name', (req, res) => {
   if (req.session.loggedin) {
@@ -76,9 +92,21 @@ app.post('/login', (req, res) => {
       if (error) throw error;
 
       if (results.length > 0) {
+        const user = results[0];
         req.session.loggedin = true;
         req.session.email = email;
-        res.redirect('/homepage');
+
+        if (user.roles.includes('user_admin')) {
+          res.redirect('/homepage');
+        } else if (user.roles.includes('booking_admin')) {
+          res.redirect('/teacher/page');
+        } else if (user.roles.includes('teacher')) {
+          res.redirect('/page');
+        } else if (user.roles.includes('student')) {
+          res.redirect('/homepage');
+        } else {
+          res.send('Unknown role!');
+        }
       } else {
         res.send('Incorrect Username and/or Password!');
       }

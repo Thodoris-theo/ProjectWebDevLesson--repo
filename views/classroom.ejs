@@ -114,7 +114,7 @@
     $("#data-table .custom-table-row").hide();
     $("#data-table .custom-table-row").each(function () {
       var reservationDate = new Date($(this).attr("data-date"));
-      if (reservationDate >= startDate || reservationDate <= endDate) {
+      if (reservationDate >= startDate  && reservationDate <= endDate) {
         $(this).show();
       }
     });

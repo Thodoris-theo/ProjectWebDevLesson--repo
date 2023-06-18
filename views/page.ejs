@@ -6,11 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="homepage-style.css">
+ 
   <title>Classroom Data</title>
 </head>
 
 <body>
   <div class="container">
+    <div class="navbar" id="myNavbar">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="javascript:void(0);" class="icon" onclick="toggleNavbar()">
+        &#9776;
+      </a>
+    </div>
+
     <h2>Classroom Data</h2>
     <!-- Search Bar -->
     <input type="text" id="searchInput" placeholder="Search..." oninput="searchData()">
@@ -24,18 +34,18 @@
         <div class="col col-5">Type</div>
       </li>
       <% data.forEach(function(row) { %>
-        <li class="table-row" onclick="openPage('<%= row.name %>')">
-          <div class="col col-1" data-label="Name"><%= row.name %></div>
-          <div class="col col-2" data-label="Building"><%= row.building %></div>
-          <div class="col col-3" data-label="Address"><%= row.address %></div>
-          <div class="col col-4" data-label="Capacity"><%= row.capacity %></div>
-          <div class="col col-5" data-label="Type"><%= row.type %></div>
-        </li>
-        <% }) %>
+      <li class="table-row" onclick="openPage('<%= row.name %>')">
+        <div class="col col-1" data-label="Name"><%= row.name %></div>
+        <div class="col col-2" data-label="Building"><%= row.building %></div>
+        <div class="col col-3" data-label="Address"><%= row.address %></div>
+        <div class="col col-4" data-label="Capacity"><%= row.capacity %></div>
+        <div class="col col-5" data-label="Type"><%= row.type %></div>
+      </li>
+      <% }) %>
     </ul>
   </div>
-  
-  <script> 
+
+  <script>
     function searchData() {
       var input = document.getElementById('searchInput').value.toLowerCase().replace(/\s/g, '');
       var table = document.getElementById('data-table');
@@ -58,12 +68,19 @@
         row.style.display = match ? 'flex' : 'none';
       }
     }
-  </script>
 
-  <script>
     function openPage(name) {
       // Redirect to the page for the clicked row
       window.location.href = '/classroom/' + name; // Replace '/classroom/' with your desired URL pattern
+    }
+
+    function toggleNavbar() {
+      var navbar = document.getElementById("myNavbar");
+      if (navbar.className === "navbar") {
+        navbar.className += " responsive";
+      } else {
+        navbar.className = "navbar";
+      }
     }
   </script>
 </body>
